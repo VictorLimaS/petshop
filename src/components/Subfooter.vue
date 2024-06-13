@@ -16,7 +16,7 @@
     display: flex;
     align-items: center;
     justify-content: start;
-    padding: 10px 20px;
+    padding: 5px 20px;
 }
 
 .logo p {

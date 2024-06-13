@@ -49,7 +49,7 @@ import Logo from './Logo.vue'
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 80px;
+  padding: 20px 80px;
   background-color: #ffffff;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
