@@ -8,10 +8,10 @@ import Subfooter from './components/Subfooter.vue';
 
 <template>
     <div class="home">
-        <Header/>
-        <Home/>
-        <Footer/>
-        <Subfooter/>
+        <Header />
+        <Home />
+        <Footer />
+        <Subfooter />
     </div>
 </template>
 
