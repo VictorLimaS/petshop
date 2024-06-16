@@ -1,9 +1,9 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
-import FirebaseVue from './firebase/firebase';
+import { createApp } from 'vue';
+import './style.css'; 
+import App from './App.vue'; 
+import router from './router/router'; 
 
+const app = createApp(App); 
 
-
-Vue.use(FirebaseVue)
-createApp(App).mount('#app')
+app.use(router); 
+app.mount('#app'); 

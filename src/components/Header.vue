@@ -1,15 +1,14 @@
-<script setup>
-import Logo from './Logo.vue'
-</script>
-
 <template>
   <div class="top">
     <p><ion-icon name="rocket-outline"></ion-icon>Frete grátis a partir de R$49</p>
   </div>
   <header class="header">
-      <div class="logo">
-        <Logo/>
-      </div>
+    <Carrinho title="Cart"
+              :visible="cartVisible"
+              @update:visible="changeCartVisibility"></Carrinho>
+    <div class="logo">
+      <Logo />
+    </div>
     <nav class="menu">
       <ul>
         <li><a href="#">Novidades</a></li>
@@ -22,27 +21,39 @@ import Logo from './Logo.vue'
     </nav>
     <div class="icons">
       <ion-icon name="person-outline"></ion-icon>
-      <ion-icon name="cart-outline"></ion-icon>
+      <ion-icon name="cart-outline" @click="changeCartVisibility"></ion-icon>
     </div>
   </header>
 </template>
 
+<script setup>
+import Logo from './Logo.vue'
+import Carrinho from '../components/Carrinho.vue';
+import { ref } from 'vue';
+
+const cartVisible = ref(false);
+
+const changeCartVisibility = () => {
+  cartVisible.value = !cartVisible.value;
+}
+</script>
+
 <style scoped>
 .top {
-    display: flex;
-    justify-content: center;
-    padding: 2px 0;
+  display: flex;
+  justify-content: center;
+  padding: 2px 0;
 }
 
 .top p {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
 }
 
 .top p ion-icon {
-    font-size: 30px;
+  font-size: 30px;
 }
 
 .header {
@@ -66,7 +77,7 @@ import Logo from './Logo.vue'
 }
 
 .logo img {
-  max-width: 100px; 
+  max-width: 100px;
 }
 
 .menu ul {
@@ -74,8 +85,8 @@ import Logo from './Logo.vue'
   display: flex;
   gap: 50px;
 }
-  
-.menu li a{
+
+.menu li a {
   gap: 10px;
   display: flex;
   align-items: center;
