@@ -42,7 +42,7 @@ const goToHomePage = () => {
             <input v-model="password" type="password" placeholder="Senha">
             <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
             <button @click="login">Login</button>
-        </div>x
+        </div>
     </div>
 </template>
 
