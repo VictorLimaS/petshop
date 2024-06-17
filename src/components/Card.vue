@@ -34,6 +34,7 @@ const props = defineProps({
     background-color: #CFCFCF;
     border-radius: 10px;
     padding: 2rem;
+    cursor: pointer;
 }
 
 .card img {

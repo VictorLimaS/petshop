@@ -3,9 +3,9 @@
     <p><ion-icon name="rocket-outline"></ion-icon>Frete grátis a partir de R$49</p>
   </div>
   <header class="header">
-    <Carrinho title="Cart"
-              :visible="cartVisible"
-              @update:visible="changeCartVisibility"></Carrinho>
+    <Carrinho title="Carrinho"
+              :visible="cartVisivel"
+              @update:visible="mudarVisibilidadeCarrinho"></Carrinho>
     <div class="logo">
       <Logo />
     </div>
@@ -14,29 +14,85 @@
         <li><a href="#">Novidades</a></li>
         <li><a href="#">Cachorros</a></li>
         <li><a href="#">Gatos</a></li>
-        <li><a href="#">Passaros</a></li>
+        <li><a href="#">Pássaros</a></li>
         <li><a href="#">Roedores</a></li>
         <li><a href="#"><ion-icon name="calendar-outline"></ion-icon>Agendar</a></li>
       </ul>
     </nav>
     <div class="icons">
-      <ion-icon name="person-outline"></ion-icon>
-      <ion-icon name="cart-outline" @click="changeCartVisibility"></ion-icon>
+      <div class="icon-container" @mouseover="mostrarDropdown" @mouseleave="esconderDropdown">
+        <span v-if="loggedIn">{{ userEmail }}</span><ion-icon name="person-outline"></ion-icon>
+        <Drop :visivel="dropdownVisivel" :loggedIn="loggedIn" @logout="logout" />
+      </div>
+      <ion-icon name="cart-outline" @click="mudarVisibilidadeCarrinho"></ion-icon>
     </div>
   </header>
 </template>
 
 <script setup>
-import Logo from './Logo.vue'
+import { ref, onMounted } from 'vue';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import Logo from './Logo.vue';
 import Carrinho from '../components/Carrinho.vue';
-import { ref } from 'vue';
+import Drop from '../components/Drop.vue';
+import { useRouter } from 'vue-router';
 
-const cartVisible = ref(false);
+const auth = getAuth();
+const router = useRouter();
 
-const changeCartVisibility = () => {
-  cartVisible.value = !cartVisible.value;
-}
+const cartVisivel = ref(false);
+const dropdownVisivel = ref(false);
+const loggedIn = ref(false);
+const userEmail = ref('');
+
+// Verificar se localStorage está disponível
+const isLocalStorageAvailable = typeof localStorage !== 'undefined';
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    loggedIn.value = true;
+    userEmail.value = user.email;
+  } else {
+    loggedIn.value = false;
+    userEmail.value = '';
+  }
+});
+
+const logout = async () => {
+  try {
+    await signOut(auth);
+    if (isLocalStorageAvailable) {
+      localStorage.removeItem('userLoggedIn'); // Limpar localStorage ao fazer logout
+    }
+    loggedIn.value = false;
+    userEmail.value = ''; // Limpar o email do usuário
+    router.push('/');
+  } catch (error) {
+    console.error('Erro ao fazer logout:', error.message);
+  }
+};
+
+const mudarVisibilidadeCarrinho = () => {
+  cartVisivel.value = !cartVisivel.value;
+};
+
+const mostrarDropdown = () => {
+  dropdownVisivel.value = true;
+};
+
+const esconderDropdown = () => {
+  dropdownVisivel.value = false;
+};
+
+// Verificar se há um usuário logado no localStorage ao iniciar o componente
+onMounted(() => {
+  if (isLocalStorageAvailable && localStorage.getItem('userLoggedIn')) {
+    loggedIn.value = true;
+    userEmail.value = JSON.parse(localStorage.getItem('userLoggedIn')).email; // Ajuste conforme a estrutura do seu usuário no localStorage
+  }
+});
 </script>
+
 
 <style scoped>
 .top {
@@ -69,11 +125,19 @@ const changeCartVisibility = () => {
 .header ion-icon {
   font-size: 28px;
   cursor: pointer;
+  position: relative;
 }
 
 .header .icons {
   display: flex;
   gap: 10px;
+}
+
+.icon-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  position: relative;
 }
 
 .logo img {
