@@ -1,22 +1,23 @@
 <template>
   <div class="home">
-    <Header v-if="!isLoginPage && !isCadastroPage" />
+    <Header v-if="!isLoginPage && !isCadastroPage && !isAgendaPage" />
     <RouterView />
-    <Footer v-if="!isLoginPage && !isCadastroPage" />
-    <Subfooter v-if="!isLoginPage && !isCadastroPage" />
+    <Footer v-if="!isLoginPage && !isCadastroPage && !isAgendaPage" />
+    <Subfooter v-if="!isLoginPage && !isCadastroPage && !isAgendaPage" />
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
 import Subfooter from './components/Subfooter.vue';
-import { RouterView, useRoute } from 'vue-router';
 
 const route = useRoute();
 const isLoginPage = computed(() => route.path === '/login');
 const isCadastroPage = computed(() => route.path === '/cadastro');
+const isAgendaPage = computed(() => route.path === '/agenda');
 </script>
 
 <style scoped>

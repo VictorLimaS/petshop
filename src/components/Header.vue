@@ -16,7 +16,7 @@
         <li><a href="#">Gatos</a></li>
         <li><a href="#">Pássaros</a></li>
         <li><a href="#">Roedores</a></li>
-        <li><a href="#"><ion-icon name="calendar-outline"></ion-icon>Agendar</a></li>
+        <router-link class="custo" to="/agenda"><ion-icon name="calendar-outline"></ion-icon>Agendar</router-link>
       </ul>
     </nav>
     <div class="icons">
@@ -62,7 +62,7 @@ const logout = async () => {
   try {
     await signOut(auth);
     if (isLocalStorageAvailable) {
-      localStorage.removeItem('userLoggedIn'); // Limpar localStorage ao fazer logout
+      localStorage.removeItem('userLoggedIn'); 
     }
     loggedIn.value = false;
     userEmail.value = ''; // Limpar o email do usuário
@@ -84,15 +84,21 @@ const esconderDropdown = () => {
   dropdownVisivel.value = false;
 };
 
-// Verificar se há um usuário logado no localStorage ao iniciar o componente
 onMounted(() => {
   if (isLocalStorageAvailable && localStorage.getItem('userLoggedIn')) {
     loggedIn.value = true;
-    userEmail.value = JSON.parse(localStorage.getItem('userLoggedIn')).email; // Ajuste conforme a estrutura do seu usuário no localStorage
+    userEmail.value = JSON.parse(localStorage.getItem('userLoggedIn')).email; 
   }
 });
-</script>
 
+const handleAgendarClick = () => {
+  if (loggedIn.value) {
+    router.push('/agenda'); 
+  } else {
+    router.push('/login');
+  }
+};
+</script>
 
 <style scoped>
 .top {
@@ -151,6 +157,15 @@ onMounted(() => {
 }
 
 .menu li a {
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 23px;
+  color: black;
+}
+
+.menu .custo {
   gap: 10px;
   display: flex;
   align-items: center;
