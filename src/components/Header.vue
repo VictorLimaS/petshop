@@ -15,8 +15,13 @@
         <li><a href="#">Cachorros</a></li>
         <li><a href="#">Gatos</a></li>
         <li><a href="#">Pássaros</a></li>
-        <li><a href="#">Roedores</a></li>
-        <router-link class="custo" to="/agenda"><ion-icon name="calendar-outline"></ion-icon>Agendar</router-link>
+        <li ><a href="#">Roedores</a></li>
+        <router-link v-if="loggedIn" class="custo" to="/agenda">
+          <ion-icon name="calendar-outline"></ion-icon>Agendar
+        </router-link>
+        <router-link v-else class="custo" to="/login">
+          <ion-icon name="calendar-outline"></ion-icon>Agendar
+        </router-link>
       </ul>
     </nav>
     <div class="icons">
@@ -45,7 +50,6 @@ const dropdownVisivel = ref(false);
 const loggedIn = ref(false);
 const userEmail = ref('');
 
-// Verificar se localStorage está disponível
 const isLocalStorageAvailable = typeof localStorage !== 'undefined';
 
 onAuthStateChanged(auth, (user) => {
@@ -65,7 +69,7 @@ const logout = async () => {
       localStorage.removeItem('userLoggedIn'); 
     }
     loggedIn.value = false;
-    userEmail.value = ''; // Limpar o email do usuário
+    userEmail.value = ''; 
     router.push('/');
   } catch (error) {
     console.error('Erro ao fazer logout:', error.message);
@@ -91,13 +95,6 @@ onMounted(() => {
   }
 });
 
-const handleAgendarClick = () => {
-  if (loggedIn.value) {
-    router.push('/agenda'); 
-  } else {
-    router.push('/login');
-  }
-};
 </script>
 
 <style scoped>
