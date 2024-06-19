@@ -1,4 +1,59 @@
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import Logo from '../components/Logo.vue';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
+const router = useRouter();
+const auth = getAuth();
+
+const goToHomePage = () => {
+    router.push('/');
+};
+
+const email = ref('');
+const password = ref('');
+const confirmPassword = ref('');
+const error = ref(null);
+
+const showErrorToast = (message) => {
+    toast.error(message);
+};
+
+const cadastrar = async () => {
+    if (!email.value || !password.value || !confirmPassword.value) {
+        showErrorToast('Todos os campos devem ser preenchidos.');
+        return;
+    }
+
+    if (!email.value.includes('@')) {
+        showErrorToast('Por favor, insira um e-mail válido.');
+        return;
+    }
+
+    if (password.value !== confirmPassword.value) {
+        showErrorToast('As senhas não coincidem.');
+        return;
+    }
+
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
+        toast.success("Cadastro realizado com sucesso!");  
+        router.push('/');
+    } catch (err) {
+        error.value = err.message;
+
+       
+        if (err.code === 'auth/email-already-in-use') {
+            showErrorToast('Este e-mail já está em uso.');
+        } else {
+            showErrorToast('Erro ao cadastrar: ' + err.message);
+        }
+    }
+};
+</script>
 
 <template>
     <div class="cadastro">
