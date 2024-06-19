@@ -22,7 +22,8 @@
         <div class="right">
           <input type="text" placeholder="Nome do Pet" v-model="nomePet">
           <div class="dropdown-container">
-            <input type="text" placeholder="Atendimento" v-model="atendimentoValue" @click="toggleDropdownAtendimento" readonly>
+            <input type="text" placeholder="Atendimento" v-model="atendimentoValue" @click="toggleDropdownAtendimento"
+              readonly>
             <ul v-if="showDropdownAtendimento" class="dropdown">
               <li v-for="option in atendimentoOptions" :key="option" @click="selectAtendimento(option)">
                 {{ option }}
@@ -57,12 +58,13 @@ import { ref } from 'vue';
 import Logo from '../components/Logo.vue';
 import Calendario from '../components/Calendario.vue';
 import { useRouter } from 'vue-router';
-import { db } from '../firebase/firebase'; // Importação correta do Realtime Database
+import { db } from '../firebase/firebase';
 import { push, ref as dbRef } from 'firebase/database';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 const router = useRouter();
 
-// Variáveis reativas
 const selectedTime = ref(null);
 const showDropdownAtendimento = ref(false);
 const atendimentoOptions = ['Banho', 'Tosa', 'Banho/Tosa'];
@@ -76,7 +78,6 @@ const nome = ref('');
 const nomePet = ref('');
 const selectedDate = ref(null);
 
-// Funções para manipulação dos dados
 const selectTime = (time) => {
   selectedTime.value = time;
 };
@@ -129,7 +130,7 @@ const agendar = async () => {
   }
 
   if (missingFields.length > 0) {
-    alert(`Por favor, preencha os seguintes campos: ${missingFields.join(', ')}`);
+    toast.error("Todos os campos devem ser preenchidos.");
   } else {
     try {
       const agendamentoData = {
@@ -145,11 +146,10 @@ const agendar = async () => {
       const newAgendamentoRef = push(agendamentosRef, agendamentoData);
 
       console.log("Agendamento realizado com sucesso! ID:", newAgendamentoRef.key);
-      alert("Agendamento realizado com sucesso!");
-      router.push('/');
+      toast.success("Agendamento realizado com sucesso!");
     } catch (e) {
       console.error("Erro ao agendar:", e);
-      alert("Erro ao agendar. Por favor, tente novamente mais tarde.");
+      toast.error("Erro ao agendar. Por favor, tente novamente mais tarde.");
     }
   }
 };
@@ -158,176 +158,176 @@ const agendar = async () => {
 
 <style scoped>
 .large-logo {
-    width: auto;
-    height: 100%;
+  width: auto;
+  height: 100%;
 }
 
 .cadastro {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    height: 100vh;
-    background-color: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(255, 255, 255);
 }
 
 .top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5rem;
-    width: 100%;
-    height: 15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5rem;
+  width: 100%;
+  height: 15rem;
 }
 
 .top button {
-    height: 50px;
-    padding: .4rem 8rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border-radius: 5px;
-    background-color: transparent;
-    border: 2px solid rgb(105, 103, 103);
-    cursor: pointer;
-    margin-top: 2rem;
+  height: 50px;
+  padding: .4rem 8rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: transparent;
+  border: 2px solid rgb(105, 103, 103);
+  cursor: pointer;
+  margin-top: 2rem;
 }
 
 .form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #CFCFCF;
-    width: 80%;
-    height: 60%;
-    padding: 1rem 2rem;
-    border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #CFCFCF;
+  width: 80%;
+  height: 62%;
+  padding: 1rem 2rem;
+  border-radius: 10px;
 }
 
 hr {
-    width: 30%;
-    height: 5px;
-    background-color: black;
-    border: 3px solid black;
-    border-radius: 5px;     
-    margin: .5rem 0 2rem 0; 
+  width: 30%;
+  height: 5px;
+  background-color: black;
+  border: 3px solid black;
+  border-radius: 5px;
+  margin: .5rem 0 2rem 0;
 }
 
 input {
-    width: 100%;
-    margin: .2rem;
-    background-color: transparent;
-    border-radius: 10px;
-    border: 1px solid black;
-    font-size: 1rem;
-    padding: 1rem 1rem;
-    color: black;
+  width: 100%;
+  margin: .2rem;
+  background-color: transparent;
+  border-radius: 10px;
+  border: 1px solid black;
+  font-size: 1rem;
+  padding: 1rem 1rem;
+  color: black;
 }
 
 .inputs {
-    display: flex;
-    gap: .5rem;
-    justify-content: center;
-    width: 100%;
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  width: 100%;
 }
 
 .inputs .left,
 .inputs .right {
-    width: 50%;
+  width: 50%;
 }
 
 .agendar {
-    display: flex;
-    align-items: center;
-    gap: 10rem;
+  display: flex;
+  align-items: center;
+  gap: 10rem;
 }
 
 .horario {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    height: 80%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 80%;
 }
 
 .times {
-    display: flex;
-    text-align: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-    gap: 10px;
+  display: flex;
+  text-align: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
 }
 
 label {
-    flex: 1 1 45%;
-    border: 1px solid black;
-    background-color: transparent;
-    border-radius: 10px;
-    padding: 10px 25px;
-    cursor: pointer;
-    font-size: 1.2rem;
+  flex: 1 1 45%;
+  border: 1px solid black;
+  background-color: transparent;
+  border-radius: 10px;
+  padding: 10px 25px;
+  cursor: pointer;
+  font-size: 1.2rem;
 }
 
-.label.selected {
-    color: rgb(32, 181, 32);
-    text-shadow: 1px 1px 2px #2f7122cc;
+.times label.selected {
+  color: rgb(32, 181, 32);
+  text-shadow: 1px 1px 2px #2f7122cc;
 }
 
 .button {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
 }
 
 .button button {
-    padding: .4rem 4rem;
-    font-size: 1.3rem;
-    font-weight: bold;
-    border-radius: 5px;
-    background-color: transparent;
-    border: 2px solid rgb(50, 199, 50);
-    cursor: pointer;
+  padding: .4rem 4rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: transparent;
+  border: 2px solid rgb(50, 199, 50);
+  cursor: pointer;
 }
 
 .dropdown-container {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
 }
 
 .dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    border: 1px solid black;
-    border-radius: 10px;
-    background-color: white;
-    z-index: 10;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: white;
+  z-index: 10;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
 
 .dropdown li {
-    padding: 1rem;
-    border-bottom: 1px solid black;
-    cursor: pointer;
+  padding: 1rem;
+  border-bottom: 1px solid black;
+  cursor: pointer;
 }
 
 .dropdown li:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .dropdown li:hover {
-    background-color: #CFCFCF;
+  background-color: #CFCFCF;
 }
 
 p {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
 }
 </style>
