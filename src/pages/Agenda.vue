@@ -1,75 +1,3 @@
-<script setup>
-import { ref } from 'vue';
-import Logo from '../components/Logo.vue';
-import Calendario from '../components/Calendario.vue';
-import { useRouter } from 'vue-router';
-import { db } from '../firebase/firebase'; // Import Firestore
-import { collection, addDoc } from 'firebase/firestore'; // Import Firestore functions
-
-const router = useRouter();
-
-const selectedTime = ref(null);
-const selectTime = (time) => {
-  selectedTime.value = time;
-};
-
-const navigateToHome = () => {
-  router.push('/');
-};
-
-const showDropdownAtendimento = ref(false);
-const atendimentoOptions = ['Banho', 'Tosa', 'Banho/Tosa'];
-const atendimentoValue = ref('');
-
-const toggleDropdownAtendimento = () => {
-  showDropdownAtendimento.value = !showDropdownAtendimento.value;
-};
-
-const selectAtendimento = (option) => {
-  atendimentoValue.value = option;
-  showDropdownAtendimento.value = false;
-};
-
-const showDropdownTipo = ref(false);
-const tipoOptions = ['Gato', 'Cachorro'];
-const tipoValue = ref('');
-
-const toggleDropdownTipo = () => {
-  showDropdownTipo.value = !showDropdownTipo.value;
-};
-
-const selectTipo = (option) => {
-  tipoValue.value = option;
-  showDropdownTipo.value = false;
-};
-
-const nome = ref('');
-const nomePet = ref('');
-const selectedDate = ref(null); // Assuming you have a way to get the selected date from your Calendario component
-
-const agendar = async () => {
-  if (nome.value && nomePet.value && tipoValue.value && atendimentoValue.value && selectedDate.value && selectedTime.value) {
-    try {
-      const docRef = await addDoc(collection(db, "agendamentos"), {
-        nome: nome.value,
-        nomePet: nomePet.value,
-        tipo: tipoValue.value,
-        atendimento: atendimentoValue.value,
-        data: selectedDate.value,
-        hora: selectedTime.value,
-      });
-      console.log("Document written with ID: ", docRef.id);
-      router.push('/'); // Navigate to home page or success page
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  } else {
-    alert("Por favor, preencha todos os campos.");
-  }
-};
-</script>
-
-
 <template>
   <div class="cadastro">
     <div class="top">
@@ -81,7 +9,7 @@ const agendar = async () => {
       <hr>
       <div class="inputs">
         <div class="left">
-          <input type="text" placeholder="Seu nome">
+          <input type="text" placeholder="Seu nome" v-model="nome">
           <div class="dropdown-container">
             <input type="text" placeholder="Tipo" v-model="tipoValue" @click="toggleDropdownTipo" readonly>
             <ul v-if="showDropdownTipo" class="dropdown">
@@ -92,7 +20,7 @@ const agendar = async () => {
           </div>
         </div>
         <div class="right">
-          <input type="text" placeholder="Nome do Pet">
+          <input type="text" placeholder="Nome do Pet" v-model="nomePet">
           <div class="dropdown-container">
             <input type="text" placeholder="Atendimento" v-model="atendimentoValue" @click="toggleDropdownAtendimento" readonly>
             <ul v-if="showDropdownAtendimento" class="dropdown">
@@ -105,7 +33,7 @@ const agendar = async () => {
       </div>
       <div class="agendar">
         <div class="calendar">
-          <Calendario />
+          <Calendario @selected="selectedDate = $event" />
         </div>
         <div class="horario">
           <div class="times">
@@ -115,7 +43,7 @@ const agendar = async () => {
             <label :class="{ selected: selectedTime === '15:00' }" @click="selectTime('15:00')">15:00</label>
           </div>
           <div class="button">
-            <button>AGENDAR</button>
+            <button @click="agendar">AGENDAR</button>
             <p><ion-icon name="cut-outline"></ion-icon> Pagamento no final do atendimento</p>
           </div>
         </div>
@@ -123,6 +51,110 @@ const agendar = async () => {
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+import Logo from '../components/Logo.vue';
+import Calendario from '../components/Calendario.vue';
+import { useRouter } from 'vue-router';
+import { db } from '../firebase/firebase'; // Importação correta do Realtime Database
+import { push, ref as dbRef } from 'firebase/database';
+
+const router = useRouter();
+
+// Variáveis reativas
+const selectedTime = ref(null);
+const showDropdownAtendimento = ref(false);
+const atendimentoOptions = ['Banho', 'Tosa', 'Banho/Tosa'];
+const atendimentoValue = ref('');
+
+const showDropdownTipo = ref(false);
+const tipoOptions = ['Gato', 'Cachorro'];
+const tipoValue = ref('');
+
+const nome = ref('');
+const nomePet = ref('');
+const selectedDate = ref(null);
+
+// Funções para manipulação dos dados
+const selectTime = (time) => {
+  selectedTime.value = time;
+};
+
+const navigateToHome = () => {
+  router.push('/');
+};
+
+const toggleDropdownTipo = () => {
+  showDropdownTipo.value = !showDropdownTipo.value;
+};
+
+const selectTipo = (option) => {
+  tipoValue.value = option;
+  showDropdownTipo.value = false;
+};
+
+const toggleDropdownAtendimento = () => {
+  showDropdownAtendimento.value = !showDropdownAtendimento.value;
+};
+
+const selectAtendimento = (option) => {
+  atendimentoValue.value = option;
+  showDropdownAtendimento.value = false;
+};
+
+const isFieldEmpty = (field) => {
+  return field.trim() === '';
+};
+
+const agendar = async () => {
+  let missingFields = [];
+  if (isFieldEmpty(nome.value)) {
+    missingFields.push('Nome');
+  }
+  if (isFieldEmpty(nomePet.value)) {
+    missingFields.push('Nome do Pet');
+  }
+  if (tipoValue.value === '') {
+    missingFields.push('Tipo');
+  }
+  if (atendimentoValue.value === '') {
+    missingFields.push('Atendimento');
+  }
+  if (selectedDate.value === null) {
+    missingFields.push('Data');
+  }
+  if (selectedTime.value === null) {
+    missingFields.push('Hora');
+  }
+
+  if (missingFields.length > 0) {
+    alert(`Por favor, preencha os seguintes campos: ${missingFields.join(', ')}`);
+  } else {
+    try {
+      const agendamentoData = {
+        nome: nome.value,
+        nomePet: nomePet.value,
+        tipo: tipoValue.value,
+        atendimento: atendimentoValue.value,
+        data: selectedDate.value.toISOString(),
+        hora: selectedTime.value,
+      };
+
+      const agendamentosRef = dbRef(db, 'agendamentos');
+      const newAgendamentoRef = push(agendamentosRef, agendamentoData);
+
+      console.log("Agendamento realizado com sucesso! ID:", newAgendamentoRef.key);
+      alert("Agendamento realizado com sucesso!");
+      router.push('/');
+    } catch (e) {
+      console.error("Erro ao agendar:", e);
+      alert("Erro ao agendar. Por favor, tente novamente mais tarde.");
+    }
+  }
+};
+</script>
+
 
 <style scoped>
 .large-logo {
@@ -237,7 +269,7 @@ label {
     font-size: 1.2rem;
 }
 
-label.selected {
+.label.selected {
     color: rgb(32, 181, 32);
     text-shadow: 1px 1px 2px #2f7122cc;
 }
