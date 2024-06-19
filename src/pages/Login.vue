@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 import Logo from '../components/Logo.vue';
 import { auth } from '../firebase/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -9,10 +11,14 @@ const router = useRouter();
 
 const email = ref('');
 const password = ref('');
-const errorMessage = ref('');
 const loading = ref(false);
 
 const login = async () => {
+  if (!email.value || !password.value) {
+    toast.error('Por favor, preencha todos os campos.');
+    return;
+  }
+
   try {
     loading.value = true; 
     const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
@@ -20,8 +26,7 @@ const login = async () => {
     localStorage.setItem('userLoggedIn', JSON.stringify(user));
     router.push('/'); 
   } catch (error) {
-    console.error('Erro ao fazer login:', error.message);
-    errorMessage.value = error.message;
+    toast.error('Credenciais inválidas. Verifique seu e-mail e senha.');
   } finally {
     loading.value = false; 
   }
@@ -31,7 +36,6 @@ const goToHomePage = () => {
   router.push('/');
 };
 </script>
-
 
 <template>
   <div class="login">
@@ -44,7 +48,6 @@ const goToHomePage = () => {
       <hr>
       <input v-model="email" type="email" placeholder="E-mail">
       <input v-model="password" type="password" placeholder="Senha">
-      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
       <button @click="login" :disabled="loading">Login</button>
       <div v-if="loading" class="loading-spinner"></div>
     </div>
@@ -116,11 +119,6 @@ button {
   border: 2px solid rgb(105, 103, 103);
   cursor: pointer;
   margin-top: 2rem;
-}
-
-.error {
-  color: red;
-  margin-top: 0.5rem;
 }
 
 .loading-spinner {

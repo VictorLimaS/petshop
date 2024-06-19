@@ -3,6 +3,8 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Logo from '../components/Logo.vue';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 const router = useRouter();
 const auth = getAuth();
@@ -16,19 +18,43 @@ const password = ref('');
 const confirmPassword = ref('');
 const error = ref(null);
 
+const showErrorToast = (message) => {
+    toast.error(message);
+};
+
 const cadastrar = async () => {
+    // Verificação se algum campo está vazio
+    if (!email.value || !password.value || !confirmPassword.value) {
+        showErrorToast('Todos os campos devem ser preenchidos.');
+        return;
+    }
+
+    // Verificação se o campo de email contém um '@'
+    if (!email.value.includes('@')) {
+        showErrorToast('Por favor, insira um e-mail válido.');
+        return;
+    }
+
+    // Verificação se as senhas são iguais
     if (password.value !== confirmPassword.value) {
-        error.value = 'As senhas não coincidem.';
+        showErrorToast('As senhas não coincidem.');
         return;
     }
 
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
         console.log('Usuário cadastrado:', userCredential.user);
-        router.push('/'); // Redireciona para a página inicial após o cadastro
+        toast.success("Cadastro realizado com sucesso!");  // Adiciona o toast de sucesso aqui
+        router.push('/');
     } catch (err) {
-        console.error('Erro ao cadastrar:', err.message);
         error.value = err.message;
+
+        // Mensagem de erro específica para usuário já existente
+        if (err.code === 'auth/email-already-in-use') {
+            showErrorToast('Este e-mail já está em uso.');
+        } else {
+            showErrorToast('Erro ao cadastrar: ' + err.message);
+        }
     }
 };
 </script>
@@ -45,11 +71,11 @@ const cadastrar = async () => {
             <input v-model="email" type="email" placeholder="E-mail">
             <input v-model="password" type="password" placeholder="Senha">
             <input v-model="confirmPassword" type="password" placeholder="Confirme sua senha">
-            <p v-if="error" class="error">{{ error }}</p>
             <button @click="cadastrar">Cadastrar</button>
         </div>
     </div>
 </template>
+
 
 <style scoped>
 .large-logo {
@@ -116,10 +142,5 @@ button {
     border: 2px solid rgb(105, 103, 103);
     cursor: pointer;
     margin-top: 2rem;
-}
-
-.error {
-    color: red;
-    margin-top: 0.5rem;
 }
 </style>
