@@ -23,8 +23,12 @@ const login = async () => {
     loading.value = true; 
     const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
     const user = userCredential.user;
-    localStorage.setItem('userLoggedIn', JSON.stringify(user));
-    router.push('/'); 
+
+    if (user.email === 'admin@hotmail.com') {
+      router.push('/admin'); 
+    } else {
+      router.push('/'); 
+    }
   } catch (error) {
     toast.error('Credenciais inválidas. Verifique seu e-mail e senha.');
   } finally {
@@ -137,4 +141,3 @@ button {
   }
 }
 </style>
-

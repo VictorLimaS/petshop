@@ -95,6 +95,11 @@ onMounted(() => {
   }
 });
 
+const navigateToLogin = () => {
+  if (!loggedIn.value) {
+    router.push('/login');
+  }
+};
 </script>
 
 <style scoped>
