@@ -1,48 +1,48 @@
 <template>
     <div class="carrinho" :class="{ 'visible': visible }">
-        <ion-icon name="close-circle-outline" @click="closePanel()"></ion-icon>
-        <h2>CARRINHO</h2>
-        <hr>
-        <div class="itens">
-            ITENS
-        </div>
-        <hr>
-        <div class="total"><h3>TOTAL: <span>199,99</span></h3></div>
-        <button>FINALIZAR</button>
+      <ion-icon name="close-circle-outline" @click="closePanel()"></ion-icon>
+      <h2>CARRINHO</h2>
+      <hr>
+      <div class="itens">
+        ITENS
+      </div>
+      <hr>
+      <div class="total"><h3>TOTAL: <span>199,99</span></h3></div>
+      <button>FINALIZAR</button>
     </div>
-</template>
-
-<script setup>
-
-defineProps({
+  </template>
+  
+  <script setup>
+  import { defineProps, defineEmits } from 'vue';
+  
+  const props = defineProps({
     title: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
     visible: {
-        type: Boolean,
-        required: true
+      type: Boolean,
+      required: true
     },
-});
-
-const emit = defineEmits(['update:visible']);
-
-const closePanel = () => {
+  });
+  
+  const emit = defineEmits(['update:visible']);
+  
+  const closePanel = () => {
     emit('update:visible', false);
-};
-</script>
-
-<style scoped>
-
-ion-icon  {
+  };
+  </script>
+  
+  <style scoped>
+  ion-icon  {
     position: absolute;
     top: 1rem;
     right: 1rem;
     font-size: 2rem;
     cursor: pointer;
-}
-
-.carrinho {
+  }
+  
+  .carrinho {
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -59,41 +59,36 @@ ion-icon  {
     overflow-y: auto;
     border: 1px solid black;
     border-right: none;
-}
-
-.carrinho.visible {
+  }
+  
+  .carrinho.visible {
     transform: translateX(0);
-}
-
-.fa-solid {
-    font-size: 5rem;
-    z-index: 1000;
-}
-
-h2 {
+  }
+  
+  h2 {
     margin: 1.5rem 0;
-}
-
-hr {
+  }
+  
+  hr {
     width: 80%;
     height: 5px;
     background-color: black;
     border: none;
     border-radius: 5px;
-}
-
-.itens {
+  }
+  
+  .itens {
     padding: 1rem 0;
-}
-
-.total {
+  }
+  
+  .total {
     display: flex;
     width: 100%;
     justify-content: end;
     margin: 1rem 0 2rem 0;
-}
-
-button {
+  }
+  
+  button {
     padding: .4rem 4rem;
     font-size: 1.3rem;
     font-weight: bold;
@@ -101,6 +96,6 @@ button {
     background-color: transparent;
     border: 2px solid rgb(50, 199, 50);
     cursor: pointer;
-}
-
-</style>
+  }
+  </style>
+  

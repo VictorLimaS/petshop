@@ -1,3 +1,20 @@
+<template>
+    <div class="cadastro">
+        <div class="top">
+            <Logo class="large-logo" />
+            <button @click="goToHomePage">Página inicial</button>
+        </div>
+        <div class="form">
+            <h3>FAÇA SEU CADASTRO</h3>
+            <hr>
+            <input v-model="email" type="email" placeholder="E-mail">
+            <input v-model="password" type="password" placeholder="Senha">
+            <input v-model="confirmPassword" type="password" placeholder="Confirme sua senha">
+            <button @click="cadastrar">Cadastrar</button>
+        </div>
+    </div>
+</template>
+
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -54,24 +71,6 @@ const cadastrar = async () => {
     }
 };
 </script>
-
-<template>
-    <div class="cadastro">
-        <div class="top">
-            <Logo class="large-logo" />
-            <button @click="goToHomePage">Página inicial</button>
-        </div>
-        <div class="form">
-            <h3>FAÇA SEU CADASTRO</h3>
-            <hr>
-            <input v-model="email" type="email" placeholder="E-mail">
-            <input v-model="password" type="password" placeholder="Senha">
-            <input v-model="confirmPassword" type="password" placeholder="Confirme sua senha">
-            <button @click="cadastrar">Cadastrar</button>
-        </div>
-    </div>
-</template>
-
 
 <style scoped>
 .large-logo {

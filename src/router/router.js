@@ -4,12 +4,13 @@ import Login from '../pages/Login.vue';
 import Cadastro from '../pages/Cadastro.vue';
 import Agenda from '../pages/Agenda.vue';
 import Admin from '../pages/Admin.vue';
+import Subirimg from '../components/Subirimg.vue'
 import { auth } from '../firebase/firebase';
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
   { path: '/login', name: 'Login', component: Login },
-  { path: '/cadastro', name: 'Cadastro', component: Cadastro },
+  { path: '/cadastro', name: 'Cadastro', component: Subirimg },
   { path: '/agenda', name: 'Agenda', component: Agenda },
   { 
     path: '/admin', 

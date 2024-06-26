@@ -1,3 +1,20 @@
+<template>
+  <div class="login">
+    <div class="top">
+      <Logo class="large-logo" />
+      <button @click="goToHomePage">Página inicial</button>
+    </div>
+    <div class="form">
+      <h3>FAÇA SEU LOGIN</h3>
+      <hr>
+      <input v-model="email" type="email" placeholder="E-mail">
+      <input v-model="password" type="password" placeholder="Senha">
+      <button @click="login" :disabled="loading">Login</button>
+      <div v-if="loading" class="loading-spinner"></div>
+    </div>
+  </div>
+</template>
+
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -41,22 +58,6 @@ const goToHomePage = () => {
 };
 </script>
 
-<template>
-  <div class="login">
-    <div class="top">
-      <Logo class="large-logo" />
-      <button @click="goToHomePage">Página inicial</button>
-    </div>
-    <div class="form">
-      <h3>FAÇA SEU LOGIN</h3>
-      <hr>
-      <input v-model="email" type="email" placeholder="E-mail">
-      <input v-model="password" type="password" placeholder="Senha">
-      <button @click="login" :disabled="loading">Login</button>
-      <div v-if="loading" class="loading-spinner"></div>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 .large-logo {

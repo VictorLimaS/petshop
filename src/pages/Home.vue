@@ -1,9 +1,3 @@
-<script setup>
-import Card from '../components/Card.vue'
-
-
-</script>
-
 <template>
   <div class="home">
     <div class="principal">
@@ -28,11 +22,18 @@ import Card from '../components/Card.vue'
         <Card width="30%" height="auto" />
         <Card width="30%" height="auto" />
         <Card width="30%" height="auto" />
+        <Card width="30%" height="auto" />
       </div>
     </div>
   </div>
 
 </template>
+
+<script setup>
+import Card from '../components/Card.vue'
+
+
+</script>
 
 <style scoped>
 .principal {
@@ -42,7 +43,7 @@ import Card from '../components/Card.vue'
 }
 
 .principal .img {
-  width: 32%;
+  width: 29%;
   max-height: 80%;
   margin: 3rem 0;
 }

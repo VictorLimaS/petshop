@@ -1,18 +1,3 @@
-<script setup>
-import { defineProps } from 'vue';
-
-const props = defineProps({
-    width: {
-        type: String,
-        default: '50%'
-    },
-    height: {
-        type: String,
-        default: 'auto'
-    }
-});
-</script>
-
 <template>
     <div class="card" :style="{ width: props.width, height: props.height }">
         <div class="img">
@@ -27,10 +12,23 @@ const props = defineProps({
     </div>
 </template>
 
+<script setup>
+import { defineProps } from 'vue';
+
+const props = defineProps({
+    width: {
+        type: String,
+        default: '30%'
+    },
+    height: {
+        type: String,
+        default: 'auto'
+    }
+});
+</script>
+
 <style scoped>
 .card {
-    width: 17rem;
-    height: 25rem;
     background-color: #CFCFCF;
     border-radius: 10px;
     padding: 2rem;
@@ -50,15 +48,15 @@ const props = defineProps({
 }
 
 .card .inf .descricao {
-    font-size: 2rem;
+    font-size: 1.4rem;
 }
 
 .card .inf .marca {
-    font-size: 2.5rem;
+    font-size: 1rem;
     font-weight: bold;
 }
 
 .card .inf .preco {
-    font-size: 3rem;
+    font-size: 1.7rem;
 }
 </style>

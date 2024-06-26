@@ -1,7 +1,3 @@
-<script setup>
-    import Logo from './Logo.vue'
-</script>
-
 <template>
     <div class="subfooter">
         <div class="logo">
@@ -10,6 +6,10 @@
         </div>
     </div>
 </template>
+
+<script setup>
+    import Logo from './Logo.vue'
+</script>
 
 <style scoped>
 .logo {

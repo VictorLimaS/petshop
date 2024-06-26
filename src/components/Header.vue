@@ -106,7 +106,7 @@ const navigateToLogin = () => {
 .top {
   display: flex;
   justify-content: center;
-  padding: 2px 0;
+  padding: 5px 0;
 }
 
 .top p {
