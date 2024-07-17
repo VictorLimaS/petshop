@@ -7,6 +7,7 @@
         <div class="form">
             <h3>FAÇA SEU CADASTRO</h3>
             <hr>
+            <input v-model="nome" type="name" placeholder="Nome">
             <input v-model="email" type="email" placeholder="E-mail">
             <input v-model="password" type="password" placeholder="Senha">
             <input v-model="confirmPassword" type="password" placeholder="Confirme sua senha">
@@ -88,12 +89,12 @@ const cadastrar = async () => {
 }
 
 .top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5rem;
-    width: 100%;
-    height: 17rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5rem;
+  width: 100%;
+  height: 15rem;
 }
 
 .form {
@@ -101,10 +102,11 @@ const cadastrar = async () => {
     flex-direction: column;
     align-items: center;
     background-color: #CFCFCF;
-    width: 25%;
-    height: 45%;
-    padding: 1rem 2rem;
+    width: 25rem;
+    height: 25rem;
+    padding: 1rem 1rem;
     border-radius: 10px;
+    margin-top:     -1rem;
 }
 
 hr {
@@ -118,18 +120,18 @@ hr {
 
 input {
     width: 90%;
-    height: 20%;
+    height: 50px;
     margin: 0.5rem 0;
     background-color: transparent;
     border-radius: 10px;
     border: 1px solid black;
-    padding: 0 1rem;
+    padding: 0rem 1rem;
     font-size: 1rem;
 }
 
 button {
     height: 50px;
-    padding: .4rem 8rem;
+    padding: .4rem 7rem;
     font-size: 1.1rem;
     font-weight: bold;
     border-radius: 5px;

@@ -80,7 +80,7 @@ const goToHomePage = () => {
   justify-content: space-between;
   padding: 5rem;
   width: 100%;
-  height: 17rem;
+  height: 15rem;
 }
 
 .form {
@@ -89,9 +89,11 @@ const goToHomePage = () => {
   align-items: center;
   background-color: #cfcfcf;
   width: 25%;
-  height: 45%;
+  height: 20rem;
   padding: 1rem 2rem;
   border-radius: 10px;
+  margin-top:-1rem;
+
 }
 
 hr {
@@ -105,7 +107,7 @@ hr {
 
 input {
   width: 90%;
-  height: 17%;
+  height: 50px;
   margin: 0.5rem 0;
   background-color: transparent;
   border-radius: 10px;
@@ -115,15 +117,15 @@ input {
 }
 
 button {
-  height: 50px;
-  padding: 0.4rem 8rem;
-  font-size: 1.3rem;
-  font-weight: bold;
-  border-radius: 5px;
-  background-color: transparent;
-  border: 2px solid rgb(105, 103, 103);
-  cursor: pointer;
-  margin-top: 2rem;
+    height: 50px;
+    padding: .4rem 7rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: transparent;
+    border: 2px solid rgb(105, 103, 103);
+    cursor: pointer;
+    margin-top: 2rem;
 }
 
 .loading-spinner {

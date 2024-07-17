@@ -167,7 +167,7 @@ const agendar = async () => {
   align-items: center;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
+  height: 120vh;
   background-color: rgb(255, 255, 255);
 }
 
@@ -198,7 +198,7 @@ const agendar = async () => {
   align-items: center;
   background-color: #CFCFCF;
   width: 80%;
-  height: 62%;
+  height: 30rem;
   padding: 1rem 2rem;
   border-radius: 10px;
 }

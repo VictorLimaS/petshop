@@ -10,7 +10,7 @@ import { auth } from '../firebase/firebase';
 const routes = [
   { path: '/', name: 'Home', component: Home },
   { path: '/login', name: 'Login', component: Login },
-  { path: '/cadastro', name: 'Cadastro', component: Subirimg },
+  { path: '/cadastro', name: 'Cadastro', component: Cadastro },
   { path: '/agenda', name: 'Agenda', component: Agenda },
   { 
     path: '/admin', 

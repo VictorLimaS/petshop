@@ -31,12 +31,12 @@ const props = defineProps({
 .card {
     background-color: #CFCFCF;
     border-radius: 10px;
-    padding: 2rem;
+    padding: 1rem;
     cursor: pointer;
 }
 
 .card img {
-    width: 100%;
+    width: 90%;
     object-fit: cover;
 }
 
@@ -48,7 +48,7 @@ const props = defineProps({
 }
 
 .card .inf .descricao {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 }
 
 .card .inf .marca {
